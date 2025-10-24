@@ -1,0 +1,84 @@
+<form [formGroup]="todosForm" (ngSubmit)="handleCreateNewTodo()">
+  <section class="todo_form_card">
+    <h1 class="todo_form_title">Adicionar Tarefa</h1>
+
+    <mat-form-field color="accent" appearance="outline" class="todo_form_input">
+      <mat-label>Título</mat-label>
+      <input matInput formControlName="title" placeholder="Digite o título" />
+    </mat-form-field>
+
+    <mat-form-field color="accent" appearance="outline" class="todo_form_input">
+      <mat-label>Descrição</mat-label>
+      <textarea
+        matInput
+        formControlName="description"
+        placeholder="Digite a descrição"
+      ></textarea>
+    </mat-form-field>
+
+    <mat-form-field color="accent" appearance="outline" class="todo_form_input">
+      <mat-label>Data de Vencimento</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        formControlName="dueDate"
+        placeholder="Escolha a data"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field color="accent" appearance="outline" class="todo_form_input">
+      <mat-label>Hora de Vencimento</mat-label>
+
+      <!-- Campo visível: permite digitar manualmente no formato HH:mm -->
+      <input
+      matInput
+      formControlName="dueTime"
+      type="text"
+      placeholder="HH:mm"
+      pattern="^([01]\d|2[0-3]):([0-5]\d)$"
+      autocomplete="off"
+      />
+
+      <!-- Botão que abre o seletor nativo de horário (fallback) -->
+      <button mat-icon-button matSuffix type="button" (click)="nativeTime.click()" aria-label="Abrir seletor de horário">
+      <mat-icon>access_time</mat-icon>
+      </button>
+
+      <!-- Seletor nativo escondido: atualiza o form control ao alterar -->
+      <input #nativeTime type="time" (change)="todosForm.get('dueTime')?.setValue(nativeTime.value)" style="display:none" />
+
+      <mat-hint>Formato: HH:mm</mat-hint>
+      <mat-error *ngIf="todosForm.get('dueTime')?.invalid && (todosForm.get('dueTime')?.touched || todosForm.get('dueTime')?.dirty)">
+      Informe a hora no formato HH:mm
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field color="accent" appearance="outline" class="todo_form_input">
+      <mat-label>Prioridade</mat-label>
+      <mat-select
+        formControlName="priority"
+        placeholder="Selecione a prioridade"
+      >
+        <mat-option [value]="PriorityEnum.LOW">Baixa</mat-option>
+        <mat-option [value]="PriorityEnum.MEDIUM">Média</mat-option>
+        <mat-option [value]="PriorityEnum.HIGH">Alta</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="todo_form_actions">
+      <button mat-raised-button class="todo_form_sucess_btn" type="submit">
+        Add
+      </button>
+      <button
+        mat-raised-button
+        color="warn"
+        type="button"
+        (click)="handleCloseModal()"
+      >
+        Cancel
+      </button>
+    </div>
+  </section>
+</form>
