@@ -5,6 +5,12 @@
     <mat-form-field color="accent" appearance="outline" class="todo_form_input">
       <mat-label>Título</mat-label>
       <input matInput formControlName="title" placeholder="Digite o título" />
+      <mat-error *ngIf="title.hasError('required')"
+        >Título é obrigatório</mat-error
+      >
+      <mat-error *ngIf="title.hasError('minlength')"
+        >Mínimo 3 caracteres</mat-error
+      >
     </mat-form-field>
 
     <mat-form-field color="accent" appearance="outline" class="todo_form_input">
@@ -14,6 +20,12 @@
         formControlName="description"
         placeholder="Digite a descrição"
       ></textarea>
+      <mat-error *ngIf="description.hasError('required')"
+        >Descrição é obrigatória</mat-error
+      >
+      <mat-error *ngIf="description.hasError('minlength')"
+        >Mínimo 5 caracteres</mat-error
+      >
     </mat-form-field>
 
     <mat-form-field color="accent" appearance="outline" class="todo_form_input">
@@ -26,33 +38,50 @@
       />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="dueDate.hasError('required')"
+        >Data é obrigatória</mat-error
+      >
+      <mat-error *ngIf="dueDate.hasError('pastDate')"
+        >A data não pode ser anterior a hoje</mat-error
+      >
     </mat-form-field>
 
     <mat-form-field color="accent" appearance="outline" class="todo_form_input">
       <mat-label>Hora de Vencimento</mat-label>
 
-      <!-- Campo visível: permite digitar manualmente no formato HH:mm -->
       <input
-      matInput
-      formControlName="dueTime"
-      type="text"
-      placeholder="HH:mm"
-      pattern="^([01]\d|2[0-3]):([0-5]\d)$"
-      autocomplete="off"
+        matInput
+        formControlName="dueTime"
+        type="text"
+        placeholder="HH:mm"
+        pattern="^([01]\d|2[0-3]):([0-5]\d)$"
+        autocomplete="off"
       />
 
-      <!-- Botão que abre o seletor nativo de horário (fallback) -->
-      <button mat-icon-button matSuffix type="button" (click)="nativeTime.click()" aria-label="Abrir seletor de horário">
-      <mat-icon>access_time</mat-icon>
+      <button
+        mat-icon-button
+        matSuffix
+        type="button"
+        (click)="nativeTime.click()"
+        aria-label="Abrir seletor de horário"
+      >
+        <mat-icon>access_time</mat-icon>
       </button>
 
-      <!-- Seletor nativo escondido: atualiza o form control ao alterar -->
-      <input #nativeTime type="time" (change)="todosForm.get('dueTime')?.setValue(nativeTime.value)" style="display:none" />
+      <input
+        #nativeTime
+        type="time"
+        (change)="todosForm.get('dueTime')?.setValue(nativeTime.value)"
+        style="display: none"
+      />
 
       <mat-hint>Formato: HH:mm</mat-hint>
-      <mat-error *ngIf="todosForm.get('dueTime')?.invalid && (todosForm.get('dueTime')?.touched || todosForm.get('dueTime')?.dirty)">
-      Informe a hora no formato HH:mm
-      </mat-error>
+      <mat-error *ngIf="dueTime.hasError('required')"
+        >Hora é obrigatória</mat-error
+      >
+      <mat-error *ngIf="dueTime.hasError('pattern')"
+        >Informe a hora no formato HH:mm</mat-error
+      >
     </mat-form-field>
 
     <mat-form-field color="accent" appearance="outline" class="todo_form_input">
@@ -65,10 +94,18 @@
         <mat-option [value]="PriorityEnum.MEDIUM">Média</mat-option>
         <mat-option [value]="PriorityEnum.HIGH">Alta</mat-option>
       </mat-select>
+      <mat-error *ngIf="priority.hasError('required')"
+        >Prioridade é obrigatória</mat-error
+      >
     </mat-form-field>
 
     <div class="todo_form_actions">
-      <button mat-raised-button class="todo_form_sucess_btn" type="submit">
+      <button
+        mat-raised-button
+        class="todo_form_sucess_btn"
+        type="submit"
+        [disabled]="todosForm.invalid"
+      >
         Add
       </button>
       <button
