@@ -1,0 +1,96 @@
+@if (true) {
+<mat-tab-group>
+  <mat-tab label="Minhas Tarefas Pendentes">
+    <div>
+      @for(todo of todosList(); track todo.id) { @if(!todo?.done) {
+      <mat-card class="todo_card">
+        <mat-card-header>
+          <mat-card-title class="todo_card_title"
+            >Título: {{ todo.title }}</mat-card-title
+          >
+          <mat-card-subtitle class="todo_card_subtitle"
+            >Descrição: {{ todo.description }}</mat-card-subtitle
+          >
+        </mat-card-header>
+        <mat-card-content>
+          <p class="todo_card_content">Prioridade: {{ todo.priority }}</p>
+          <p class="todo_card_content">
+            Data de Vencimento: {{ todo.dueDate | date : "dd/MM/yyyy" }} às
+            {{ todo.dueDate | date : "HH:mm" }}
+          </p>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button
+            class="header_btn check-btn"
+            mat-icon-button
+            aria-label="Complete Task"
+            (click)="handleDoneTodo(todo.id)"
+          >
+            <mat-icon>done_all</mat-icon>
+          </button>
+          <button
+            class="header_btn check-btn todo_form_delete_btn"
+            mat-icon-button
+            aria-label="Delete Task"
+            (click)="handleDeleteTodo(todo)"
+          >
+            <mat-icon>delete_forever</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+      } }
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Tarefas Concluídas">
+    <div>
+      @for(todo of todosList(); track todo.id) { @if(todo?.done) {
+      <mat-card class="todo_card done_todo_card">
+        <mat-card-header>
+          <mat-card-title class="todo_card_title"
+            >Título: {{ todo.title }}</mat-card-title
+          >
+          <mat-card-subtitle class="todo_card_subtitle"
+            >Descrição: {{ todo.description }}</mat-card-subtitle
+          >
+        </mat-card-header>
+        <mat-card-content>
+          <p class="todo_card_content">Prioridade: {{ todo.priority }}</p>
+          <p class="todo_card_content">
+            Data de Vencimento: {{ todo.dueDate | date : "dd/MM/yyyy" }} às
+            {{ todo.dueDate | date : "HH:mm" }}
+          </p>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button
+            class="header_btn restore-btn"
+            mat-icon-button
+            aria-label="Restore Task"
+            (click)="handleDoneTodo(todo.id)"
+          >
+            <mat-icon>restore</mat-icon>
+          </button>
+          <button
+            class="header_btn check-btn todo_form_delete_btn"
+            mat-icon-button
+            aria-label="Delete Task"
+            (click)="handleDeleteTodo(todo)"
+          >
+            <mat-icon>delete_forever</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+      } }
+    </div>
+  </mat-tab>
+</mat-tab-group>
+} @else {
+<ng-container *ngTemplateOutlet="withoutTodos"></ng-container>
+}
+
+<ng-template #withoutTodos>
+  <h2 class="warn_message">Sem tarefas pendentes!</h2>
+  <p class="warn_message">
+    Você não tem tarefas a serem concluídas no momento.
+  </p>
+</ng-template>
