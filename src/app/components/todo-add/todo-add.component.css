@@ -28,6 +28,11 @@
     color: white !important;
 }
 
+.todo_form_cancel_btn {
+  background-color: #a11707 !important;
+    color: white !important;
+}
+
 .todo_form_input {
   width: 90% !important;
 }
