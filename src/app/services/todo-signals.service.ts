@@ -11,16 +11,16 @@ export class TodoSignalsService {
 
   public todosState = signal<Array<ITodo>>([]);
 
-  public updateTodos(todos: Array<ITodo>) {
-    if(todos) {
-      const updateTodos = [...this.todosState(), ...todos];
-      this.todosState.set(updateTodos);
-      this.saveToLocalStorage(updateTodos);
+  public updateTodos(todo: ITodo) {
+    if(todo) {
+      const updatedTodos = [...this.todosState(), todo];
+      this.todosState.set(updatedTodos);
+      this.saveToLocalStorage();
     }
   }
 
-  saveToLocalStorage(updateTodos: ITodo[]) {
-    const todosString = JSON.stringify(updateTodos);
+  saveToLocalStorage() {
+    const todosString = JSON.stringify(this.todosState());
     localStorage.setItem(TodoKeyLocalStorage.TODO_LIST, todosString);
   }
 }
