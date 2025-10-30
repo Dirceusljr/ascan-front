@@ -1,27 +1,56 @@
-# AscanFront
+# Desafio Ascan - FrontEnd
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.6.
+Aplicação Frontend em Angular — uma simples To‑Do List criada como desafio técnico.
 
-## Development server
+## Visão geral
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Projeto standalone com componentes baseados em Signals do Angular para gerenciar o estado das tarefas e persistência no localStorage. Utiliza Angular Material para UI.
 
-## Code scaffolding
+Funcionalidades principais:
+- Criar tarefas com título, descrição, data e hora de vencimento e prioridade.
+- Marcar tarefas como concluídas / restaurar.
+- Excluir tarefas.
+- Persistência local via localStorage.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Tecnologias
+- Angular 18
+- TypeScript
+- Angular Material
+- Signals (API de sinais do Angular)
 
-## Build
+## Estrutura relevante
+- Entrada da aplicação: [src/main.ts](src/main.ts) — provê a inicialização usando [`appConfig`](src/app/app.config.ts).
+- Componentes:
+  - Cabeçalho: [`TodoHeaderComponent`](src/app/components/todo-header/todo-header.component.ts)
+  - Form de criação: [`TodoAddComponent`](src/app/components/todo-add/todo-add.component.ts)
+  - Lista / cartões: [`TodoCardComponent`](src/app/components/todo-card/todo-card.component.ts)
+- Serviço de estado: [`TodoSignalsService`](src/app/services/todo-signals.service.ts)
+- Configurações do projeto: [package.json](package.json), [angular.json](angular.json), [tsconfig.json](tsconfig.json)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Rodando localmente
 
-## Running unit tests
+1. Instale dependências
+```sh
+npm install
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+2. Inicie o servidor de desenvolvimento
+```sh
+npm run start
+```
+Abra http://localhost:4200/
 
-## Running end-to-end tests
+## Scripts úteis (ver [package.json](package.json))
+- npm run start — ng serve
+- npm run build — ng build
+- npm run test — ng test
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Notas de implementação
+- Estado das tarefas é armazenado em sinais (`signal`) pelo serviço [`TodoSignalsService`](src/app/services/todo-signals.service.ts) e sincronizado com `localStorage` usando a chave `TODO_LIST`.
+- O formulário de criação valida campos (título mínimo 3, descrição mínimo 5, formato de hora `HH:mm`, data não pode ser passada).
+- IDs das tarefas são gerados por `Date.now()` para unicidade simples.
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Como contribuir
+1. Fork e clone o repositório.
+2. Crie uma branch com a sua feature/fix.
+3. Abra PR com descrição clara das mudanças.
